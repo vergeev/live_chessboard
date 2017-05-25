@@ -3,7 +3,7 @@
     <head>
     </head>
     <body>
-        <input type="file" id="your-files" multiple>
+        <input type="file" id="game_file">
         <script>
             var reader = new FileReader();
             reader.onload = function(event) {
@@ -14,7 +14,7 @@
                 var error_code = event.target.error.code;
                 console.log("File could not be read! Code: " + error_code);
             }
-            var control = document.getElementById("your-files");
+            var control = document.getElementById("game_file");
             var show_files = function(event) {
                 var i = 0,
                     files = control.files,
