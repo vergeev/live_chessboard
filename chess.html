@@ -3,7 +3,7 @@
     <head>
     </head>
     <body>
-        <input type="file" id="game_file">
+        <input type="file" id="game_file"/>
         <script>
             var convert_turn_to_coordinates = function(turn) {
                 // левый верхний угол A8 -> (0,0).
@@ -43,7 +43,7 @@
                 var files = control.files;
                 var file = files[0]; // гарантированно будет ровно один
                 reader.readAsText(file);
-            };
+            }
             control.addEventListener("change", read_file, false);
         </script>
     </body>
