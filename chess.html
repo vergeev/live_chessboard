@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <input type="file" id="your-files" multiple>
+        <script>
+            var control = document.getElementById("your-files");
+            var show_files = function(event) {
+                var i = 0,
+                    files = control.files,
+                    len = files.length;
+                for (; i < len; i++) {
+                    console.log("Filename: " + files[i].name);
+                    console.log("Type: " + files[i].type);
+                    console.log("Size: " + files[i].size);
+                }
+            };
+            control.addEventListener("change", show_files, false);
+        </script>
+    </body>
+</html>
