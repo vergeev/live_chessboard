@@ -15,18 +15,12 @@
                 console.log("File could not be read! Code: " + error_code);
             }
             var control = document.getElementById("game_file");
-            var show_files = function(event) {
-                var i = 0,
-                    files = control.files,
-                    len = files.length;
-                for (; i < len; i++) {
-                    console.log("Filename: " + files[i].name);
-                    console.log("Type: " + files[i].type);
-                    console.log("Size: " + files[i].size);
-                    reader.readAsText(files[i]);
-                }
+            var read_file = function(event) {
+                var files = control.files;
+                var file = files[0]; // гарантированно будет ровно один
+                reader.readAsText(file);
             };
-            control.addEventListener("change", show_files, false);
+            control.addEventListener("change", read_file, false);
         </script>
     </body>
 </html>
