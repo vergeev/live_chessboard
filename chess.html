@@ -5,17 +5,43 @@
     <body>
         <input type="file" id="game_file">
         <script>
-            var turns = []
+            var convert_turn_to_coordinates = function(turn) {
+                // левый верхний угол A8 -> (0,0).
+                // (см. chessboard.jpg)
+                var letter_number_map = {
+                    'A': 0, 'B': 1, 'C': 2, 'D': 3,
+                    'E': 4, 'F': 5, 'G': 6
+                }
+                var column_letter = turn[0];
+                var reversed_row = parseInt(turn[1]);
+                var column = letter_number_map[column_letter];
+                var row = (reversed_row - 8) * (-1);
+                return {'row': row, 'col': column};
+            }
+
             var reader = new FileReader();
             reader.onload = function(event) {
                 var contents = event.target.result;
-                turns = contents.split("\n"); // ожидается, что каждый новый ход на новой строке
+                var turns = contents.split("\n"); // ожидается, что каждый новый ход на новой строке
                 console.log("Ходы: " + turns);
+                var coordinates = []
+                for (var i = 0; i < turns.length; i++) {
+                    if (!turns[i]) {
+                        // Если строка пустая или undefined, пропускаем итерацию
+                        continue;
+                    }
+                    turn_coordinates = convert_turn_to_coordinates(turns[i]);
+                    coordinates.push(turn_coordinates);
+                    console.log("Новый ход обнаружен");
+                    console.log("Строка: " + coordinates[i]['row']);
+                    console.log("Столбец: " + coordinates[i]['col']);
+                }
             }
             reader.onerror = function(event) {
                 var error_code = event.target.error.code;
                 console.log("File could not be read! Code: " + error_code);
             }
+
             var control = document.getElementById("game_file");
             var read_file = function(event) {
                 var files = control.files;
