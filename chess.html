@@ -6,7 +6,15 @@
         <input type="file" id="game_file"/>
         <br>
         <button id="next_turn_button" disabled>Следующий ход</button>
+        <br>
+        <label id="turn_description"></label>
         <script>
+            var coordinates = []
+            var next_turn_button = document.getElementById("next_turn_button");
+            var control = document.getElementById("game_file");
+            var turn_description = document.getElementById("turn_description");
+            var current_turn = 0;
+
             var convert_turn_to_coordinates = function(turn) {
                 // левый верхний угол A8 -> (0,0).
                 // (см. chessboard.jpg)
@@ -21,12 +29,23 @@
                 return {'row': row, 'col': column};
             }
 
+            var display_next_turn = function() {
+                if (current_turn >= coordinates.length) {
+                    turn_description.innerText = "Ходы закончились";
+                    next_turn_button.disabled = true;
+                    return;
+                }
+                current_row = coordinates[current_turn]["row"];
+                current_col = coordinates[current_turn]["col"];
+                turn_description.innerText = current_row + " x " + current_col;
+                current_turn += 1;
+            }
+
             var reader = new FileReader();
             reader.onload = function(event) {
                 var contents = event.target.result;
                 var turns = contents.split("\n"); // ожидается, что каждый новый ход на новой строке
                 console.log("Ходы: " + turns);
-                var coordinates = []
                 for (var i = 0; i < turns.length; i++) {
                     if (!turns[i]) {
                         // Если строка пустая или undefined, пропускаем итерацию
@@ -34,15 +53,16 @@
                     }
                     turn_coordinates = convert_turn_to_coordinates(turns[i]);
                     coordinates.push(turn_coordinates);
-                    console.log("Новый ход обнаружен");
-                    console.log("Строка: " + coordinates[i]['row']);
-                    console.log("Столбец: " + coordinates[i]['col']);
                 }
-                var next_turn_button = document.getElementById("next_turn_button");
                 next_turn_button.disabled = false;
+                current_turn = 0;
+                display_next_turn();
             }
 
-            var control = document.getElementById("game_file");
+            next_turn_button.onclick = function(event) {
+                display_next_turn();
+            }
+
             var read_file = function(event) {
                 var files = control.files;
                 var file = files[0]; // гарантированно будет ровно один
