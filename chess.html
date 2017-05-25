@@ -4,6 +4,8 @@
     </head>
     <body>
         <input type="file" id="game_file"/>
+        <br>
+        <button id="next_turn_button" disabled>Следующий ход</button>
         <script>
             var convert_turn_to_coordinates = function(turn) {
                 // левый верхний угол A8 -> (0,0).
@@ -36,6 +38,8 @@
                     console.log("Строка: " + coordinates[i]['row']);
                     console.log("Столбец: " + coordinates[i]['col']);
                 }
+                var next_turn_button = document.getElementById("next_turn_button");
+                next_turn_button.disabled = false;
             }
 
             var control = document.getElementById("game_file");
