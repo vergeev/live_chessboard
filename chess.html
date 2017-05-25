@@ -37,10 +37,6 @@
                     console.log("Столбец: " + coordinates[i]['col']);
                 }
             }
-            reader.onerror = function(event) {
-                var error_code = event.target.error.code;
-                console.log("File could not be read! Code: " + error_code);
-            }
 
             var control = document.getElementById("game_file");
             var read_file = function(event) {
