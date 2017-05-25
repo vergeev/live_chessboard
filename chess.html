@@ -5,6 +5,15 @@
     <body>
         <input type="file" id="your-files" multiple>
         <script>
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var contents = event.target.result;
+                console.log("File contents: " + contents);
+            }
+            reader.onerror = function(event) {
+                var error_code = event.target.error.code;
+                console.log("File could not be read! Code: " + error_code);
+            }
             var control = document.getElementById("your-files");
             var show_files = function(event) {
                 var i = 0,
@@ -14,6 +23,7 @@
                     console.log("Filename: " + files[i].name);
                     console.log("Type: " + files[i].type);
                     console.log("Size: " + files[i].size);
+                    reader.readAsText(files[i]);
                 }
             };
             control.addEventListener("change", show_files, false);
