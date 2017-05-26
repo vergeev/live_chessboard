@@ -15,6 +15,52 @@
             var turn_description = document.getElementById("turn_description");
             var current_turn = 0;
 
+            var get_two_dimensional_array = function(rows, cols) {
+                var x = new Array(rows);
+                for (var i = 0; i < rows; i++) {
+                    x[i] = new Array(cols);
+                }
+                return x;
+            }
+
+            var get_initial_chessboard = function() {
+                var chessboard = get_two_dimensional_array(8, 8);
+                chessboard[0][0] = {"color": "black", "name": "rook"};
+                chessboard[0][7] = {"color": "black", "name": "rook"};
+                chessboard[7][0] = {"color": "white", "name": "rook"};
+                chessboard[7][7] = {"color": "white", "name": "rook"};
+                chessboard[0][1] = {"color": "black", "name": "knight"};
+                chessboard[0][6] = {"color": "black", "name": "knight"};
+                chessboard[7][1] = {"color": "white", "name": "knight"};
+                chessboard[7][6] = {"color": "white", "name": "knight"};
+                chessboard[0][2] = {"color": "black", "name": "bishop"};
+                chessboard[0][5] = {"color": "black", "name": "bishop"};
+                chessboard[7][2] = {"color": "white", "name": "bishop"};
+                chessboard[7][5] = {"color": "white", "name": "bishop"};
+                chessboard[0][3] = {"color": "black", "name": "king"};
+                chessboard[7][3] = {"color": "white", "name": "king"};
+                chessboard[0][4] = {"color": "black", "name": "queen"};
+                chessboard[7][4] = {"color": "white", "name": "queen"};
+                for (var i = 0; i < 8; i++) {
+                    chessboard[1][i] = {"color": "black", "name": "pawn"};
+                    chessboard[6][i] = {"color": "white", "name": "pawn"};
+                }
+                return chessboard;
+            }
+
+            var render_chessboard = function(chessboard) {
+                for (var i = 0; i < 8; i++) {
+                    var str = ""
+                    for (var j = 0; j < 8; j++) {
+                        str += chessboard[i][j] + " ";
+                    }
+                    console.log(str);
+                }
+            }
+
+            var chessboard = get_initial_chessboard();
+            render_chessboard(chessboard);
+
             var convert_cell_to_coordinates = function(turn) {
                 // левый верхний угол A8 -> (0,0).
                 // (см. chessboard.jpg)
