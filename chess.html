@@ -59,7 +59,6 @@
             }
 
             var chessboard = get_initial_chessboard();
-            render_chessboard(chessboard);
 
             var convert_cell_to_coordinates = function(turn) {
                 // левый верхний угол A8 -> (0,0).
@@ -87,6 +86,9 @@
                 finish_col = coordinates[current_turn]["finish"]["col"];
                 turn_description.innerText = "(" + start_row + "," + start_col + ")" +
                     " -> (" + finish_row + "," + finish_col + ")";
+                chessboard[finish_row][finish_col] = chessboard[start_row][start_col];
+                chessboard[start_row][start_col] = undefined;
+                render_chessboard(chessboard);
                 current_turn += 1;
             }
 
