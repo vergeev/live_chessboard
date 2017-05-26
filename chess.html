@@ -15,7 +15,7 @@
             var turn_description = document.getElementById("turn_description");
             var current_turn = 0;
 
-            var convert_turn_to_coordinates = function(turn) {
+            var convert_cell_to_coordinates = function(turn) {
                 // левый верхний угол A8 -> (0,0).
                 // (см. chessboard.jpg)
                 var letter_number_map = {
@@ -35,9 +35,12 @@
                     next_turn_button.disabled = true;
                     return;
                 }
-                current_row = coordinates[current_turn]["row"];
-                current_col = coordinates[current_turn]["col"];
-                turn_description.innerText = current_row + " x " + current_col;
+                start_row = coordinates[current_turn]["start"]["row"];
+                start_col = coordinates[current_turn]["start"]["col"];
+                finish_row = coordinates[current_turn]["finish"]["row"];
+                finish_col = coordinates[current_turn]["finish"]["col"];
+                turn_description.innerText = "(" + start_row + "," + start_col + ")" +
+                    " -> (" + finish_row + "," + finish_col + ")";
                 current_turn += 1;
             }
 
@@ -51,8 +54,11 @@
                         // Если строка пустая или undefined, пропускаем итерацию
                         continue;
                     }
-                    turn_coordinates = convert_turn_to_coordinates(turns[i]);
-                    coordinates.push(turn_coordinates);
+                    var start_cell = turns[i].split(" ")[0];
+                    var finish_cell = turns[i].split(" ")[1];
+                    var start_coordinates = convert_cell_to_coordinates(start_cell);
+                    var finish_coordinates = convert_cell_to_coordinates(finish_cell);
+                    coordinates.push({"start": start_coordinates, "finish": finish_coordinates})
                 }
                 next_turn_button.disabled = false;
                 current_turn = 0;
