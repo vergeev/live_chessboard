@@ -16,6 +16,11 @@
             var control = document.getElementById("game_file");
             var turn_description = document.getElementById("turn_description");
             var current_turn = 0;
+            var piece_classes = [
+                "black-rook", "white-rook", "black-knight", "white-knight",
+                "black-bishop", "white-bishop", "black-king", "white-king",
+                "black-queen", "white-queen", "black-pawn", "white-pawn"
+            ]
 
             var get_two_dimensional_array = function(rows, cols) {
                 var x = new Array(rows);
@@ -27,36 +32,37 @@
 
             var get_initial_chessboard = function() {
                 var chessboard = get_two_dimensional_array(8, 8);
-                chessboard[0][0] = {"color": "black", "name": "rook"};
-                chessboard[0][7] = {"color": "black", "name": "rook"};
-                chessboard[7][0] = {"color": "white", "name": "rook"};
-                chessboard[7][7] = {"color": "white", "name": "rook"};
-                chessboard[0][1] = {"color": "black", "name": "knight"};
-                chessboard[0][6] = {"color": "black", "name": "knight"};
-                chessboard[7][1] = {"color": "white", "name": "knight"};
-                chessboard[7][6] = {"color": "white", "name": "knight"};
-                chessboard[0][2] = {"color": "black", "name": "bishop"};
-                chessboard[0][5] = {"color": "black", "name": "bishop"};
-                chessboard[7][2] = {"color": "white", "name": "bishop"};
-                chessboard[7][5] = {"color": "white", "name": "bishop"};
-                chessboard[0][3] = {"color": "black", "name": "king"};
-                chessboard[7][3] = {"color": "white", "name": "king"};
-                chessboard[0][4] = {"color": "black", "name": "queen"};
-                chessboard[7][4] = {"color": "white", "name": "queen"};
+                chessboard[0][0] = piece_classes[0];
+                chessboard[0][7] = piece_classes[0];
+                chessboard[7][0] = piece_classes[1];
+                chessboard[7][7] = piece_classes[1];
+                chessboard[0][1] = piece_classes[2];
+                chessboard[0][6] = piece_classes[2];
+                chessboard[7][1] = piece_classes[3];
+                chessboard[7][6] = piece_classes[3];
+                chessboard[0][2] = piece_classes[4];
+                chessboard[0][5] = piece_classes[4];
+                chessboard[7][2] = piece_classes[5];
+                chessboard[7][5] = piece_classes[5];
+                chessboard[0][3] = piece_classes[6];
+                chessboard[7][3] = piece_classes[6];
+                chessboard[0][4] = piece_classes[7];
+                chessboard[7][4] = piece_classes[7];
                 for (var i = 0; i < 8; i++) {
-                    chessboard[1][i] = {"color": "black", "name": "pawn"};
-                    chessboard[6][i] = {"color": "white", "name": "pawn"};
+                    chessboard[1][i] = piece_classes[8];
+                    chessboard[6][i] = piece_classes[9];
                 }
                 return chessboard;
             }
 
             var render_chessboard = function(chessboard) {
+                var img_path = "img/pieces.png";
                 for (var i = 0; i < 8; i++) {
-                    var str = ""
                     for (var j = 0; j < 8; j++) {
-                        str += chessboard[i][j] + " ";
+                        if (!chessboard) {
+                            continue;
+                        }
                     }
-                    console.log(str);
                 }
             }
 
