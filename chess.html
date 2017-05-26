@@ -55,6 +55,31 @@
                 return chessboard;
             }
 
+            var create_pieces = function() {
+                var body_element = document.getElementsByTagName("body")[0];
+                for (var i = 0; i < piece_classes.length; i++) {
+                    var img_url = "img/pieces/" + piece_classes[i] + ".png";
+                    var image = document.createElement('img');
+                    image.src = "img/empty.png";
+                    image.style.width = "100px";
+                    image.style.height = "100px";
+                    image.style.background = "url(" + img_url + ") no-repeat";
+                    image.style.backgroundSize = "contain";
+                    image.style.position = "absolute";
+                    image.className = piece_classes[i];
+                    body_element.appendChild(image);
+                }
+            }
+
+            var hide_pieces = function() {
+                for (var i = 0; i < piece_classes.length; i++) {
+                    pieces = document.getElementsByClassName(piece_classes[i]);
+                    for (var j = 0; j < pieces.length; j++) {
+                        pieces[j].style.visibility = "hidden";
+                    }
+                }
+            }
+
             var render_chessboard = function(chessboard) {
                 var img_path = "img/pieces.png";
                 for (var i = 0; i < 8; i++) {
@@ -65,6 +90,9 @@
                     }
                 }
             }
+
+            create_pieces();
+            hide_pieces();
 
             var chessboard = get_initial_chessboard();
 
