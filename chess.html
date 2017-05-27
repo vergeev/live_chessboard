@@ -16,10 +16,21 @@
             var control = document.getElementById("game_file");
             var turn_description = document.getElementById("turn_description");
             var current_turn = 0;
-            var piece_classes = [
-                "black-rook", "white-rook", "black-knight", "white-knight",
-                "black-bishop", "white-bishop", "black-king", "white-king",
-                "black-queen", "white-queen", "black-pawn", "white-pawn"
+            var piece_ids = [
+                "black-rook-1","black-rook-2",
+                "white-rook-1", "white-rook-2",
+                "black-knight-1", "black-knight-2",
+                "white-knight-1", "white-knight-2",
+                "black-bishop-1", "black-bishop-2",
+                "white-bishop-1", "white-bishop-2",
+                "black-king-1",
+                "white-king-1",
+                "black-queen-1",
+                "white-queen-1",
+                "black-pawn-1", "black-pawn-2", "black-pawn-3", "black-pawn-4",
+                "black-pawn-5", "black-pawn-6", "black-pawn-7", "black-pawn-8",
+                "white-pawn-1", "white-pawn-2", "white-pawn-3", "white-pawn-4",
+                "white-pawn-5", "white-pawn-6", "white-pawn-7", "white-pawn-8",
             ]
 
             var get_two_dimensional_array = function(rows, cols) {
@@ -32,69 +43,72 @@
 
             var get_initial_chessboard = function() {
                 var chessboard = get_two_dimensional_array(8, 8);
-                chessboard[0][0] = piece_classes[0];
-                chessboard[0][7] = piece_classes[0];
-                chessboard[7][0] = piece_classes[1];
-                chessboard[7][7] = piece_classes[1];
-                chessboard[0][1] = piece_classes[2];
-                chessboard[0][6] = piece_classes[2];
-                chessboard[7][1] = piece_classes[3];
-                chessboard[7][6] = piece_classes[3];
-                chessboard[0][2] = piece_classes[4];
-                chessboard[0][5] = piece_classes[4];
-                chessboard[7][2] = piece_classes[5];
-                chessboard[7][5] = piece_classes[5];
-                chessboard[0][3] = piece_classes[6];
-                chessboard[7][3] = piece_classes[6];
-                chessboard[0][4] = piece_classes[7];
-                chessboard[7][4] = piece_classes[7];
+                chessboard[0][0] = piece_ids[0];
+                chessboard[0][7] = piece_ids[1];
+                chessboard[7][0] = piece_ids[2];
+                chessboard[7][7] = piece_ids[3];
+                chessboard[0][1] = piece_ids[4];
+                chessboard[0][6] = piece_ids[5];
+                chessboard[7][1] = piece_ids[6];
+                chessboard[7][6] = piece_ids[7];
+                chessboard[0][2] = piece_ids[8];
+                chessboard[0][5] = piece_ids[9];
+                chessboard[7][2] = piece_ids[10];
+                chessboard[7][5] = piece_ids[11];
+                chessboard[0][3] = piece_ids[12];
+                chessboard[7][3] = piece_ids[13];
+                chessboard[0][4] = piece_ids[14];
+                chessboard[7][4] = piece_ids[15];
                 for (var i = 0; i < 8; i++) {
-                    chessboard[1][i] = piece_classes[8];
-                    chessboard[6][i] = piece_classes[9];
+                    chessboard[1][i] = piece_ids[16 + i];
+                    chessboard[6][i] = piece_ids[24 + i];
                 }
                 return chessboard;
             }
 
-            var create_pieces = function() {
+            var show_piece = function(piece_id, margin_left, margin_top) {
                 var body_element = document.getElementsByTagName("body")[0];
-                for (var i = 0; i < piece_classes.length; i++) {
-                    var img_url = "img/pieces/" + piece_classes[i] + ".png";
-                    var image = document.createElement('img');
-                    image.src = "img/empty.png";
-                    image.style.width = "100px";
-                    image.style.height = "100px";
-                    image.style.background = "url(" + img_url + ") no-repeat";
-                    image.style.backgroundSize = "contain";
-                    image.style.position = "absolute";
-                    image.className = piece_classes[i];
-                    body_element.appendChild(image);
-                }
+                var piece_class = piece_id.slice(0, -2);
+                var img_url = "img/pieces/" + piece_class + ".png";
+                var image = document.createElement('img');
+                image.src = "img/empty.png"; // атрибут src не может быть пустым
+                image.style.width = "100px";
+                image.style.height = "100px";
+                image.style.background = "url(" + img_url + ") no-repeat";
+                image.style.backgroundSize = "contain";
+                image.style.position = "absolute";
+                image.style.marginLeft = String(margin_left) + "px";
+                image.style.marginTop = String(margin_top) + "px";
+                image.id = piece_id;
+                body_element.appendChild(image);
             }
 
             var hide_pieces = function() {
-                for (var i = 0; i < piece_classes.length; i++) {
-                    pieces = document.getElementsByClassName(piece_classes[i]);
-                    for (var j = 0; j < pieces.length; j++) {
-                        pieces[j].style.visibility = "hidden";
+                for (var i = 0; i < piece_ids.length; i++) {
+                    var piece = document.getElementById(piece_ids[i]);
+                    if (!piece) {
+                        continue;
                     }
+                    piece.parentNode.removeChild(piece);
                 }
             }
 
             var render_chessboard = function(chessboard) {
-                var img_path = "img/pieces.png";
                 for (var i = 0; i < 8; i++) {
                     for (var j = 0; j < 8; j++) {
-                        if (!chessboard) {
+                        if (!chessboard[i][j]) {
                             continue;
                         }
+                        piece_id = chessboard[i][j];
+                        margin_left = 30 + 90 * j;
+                        margin_top = -810 + 90 * i;
+                        show_piece(piece_id, margin_left, margin_top);
                     }
                 }
             }
 
-            create_pieces();
-            hide_pieces();
-
             var chessboard = get_initial_chessboard();
+            render_chessboard(chessboard);
 
             var convert_cell_to_coordinates = function(turn) {
                 // левый верхний угол A8 -> (0,0).
@@ -112,7 +126,6 @@
 
             var display_next_turn = function() {
                 if (current_turn >= coordinates.length) {
-                    turn_description.innerText = "Ходы закончились";
                     next_turn_button.disabled = true;
                     return;
                 }
@@ -120,10 +133,9 @@
                 start_col = coordinates[current_turn]["start"]["col"];
                 finish_row = coordinates[current_turn]["finish"]["row"];
                 finish_col = coordinates[current_turn]["finish"]["col"];
-                turn_description.innerText = "(" + start_row + "," + start_col + ")" +
-                    " -> (" + finish_row + "," + finish_col + ")";
                 chessboard[finish_row][finish_col] = chessboard[start_row][start_col];
                 chessboard[start_row][start_col] = undefined;
+                hide_pieces();
                 render_chessboard(chessboard);
                 current_turn += 1;
             }
