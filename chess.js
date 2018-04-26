@@ -146,7 +146,6 @@ reader.onload = (event) => {
     }
     next_turn_button.disabled = false
     current_turn = 0
-    display_next_turn()
 }
 
 next_turn_button.onclick = (event) => {
