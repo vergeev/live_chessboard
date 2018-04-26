@@ -1,9 +1,9 @@
-var coordinates = []
-var next_turn_button = document.getElementById("next_turn_button");
-var control = document.getElementById("game_file");
-var turn_description = document.getElementById("turn_description");
-var current_turn = 0;
-var piece_ids = [
+let coordinates = []
+const next_turn_button = document.getElementById("next_turn_button");
+const control = document.getElementById("game_file");
+const turn_description = document.getElementById("turn_description");
+let current_turn = 0;
+const piece_ids = [
     "black-rook-1","black-rook-2",
     "white-rook-1", "white-rook-2",
     "black-knight-1", "black-knight-2",
@@ -20,16 +20,16 @@ var piece_ids = [
     "white-pawn-5", "white-pawn-6", "white-pawn-7", "white-pawn-8",
 ]
 
-var get_two_dimensional_array = function(rows, cols) {
-    var x = new Array(rows);
-    for (var i = 0; i < rows; i++) {
+const get_two_dimensional_array = function(rows, cols) {
+    let x = new Array(rows);
+    for (let i = 0; i < rows; i++) {
         x[i] = new Array(cols);
     }
     return x;
 }
 
-var get_initial_chessboard = function() {
-    var chessboard = get_two_dimensional_array(8, 8);
+const get_initial_chessboard = function() {
+    let chessboard = get_two_dimensional_array(8, 8);
     chessboard[0][0] = piece_ids[0];
     chessboard[0][7] = piece_ids[1];
     chessboard[7][0] = piece_ids[2];
@@ -46,18 +46,18 @@ var get_initial_chessboard = function() {
     chessboard[7][3] = piece_ids[13];
     chessboard[0][4] = piece_ids[14];
     chessboard[7][4] = piece_ids[15];
-    for (var i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i++) {
         chessboard[1][i] = piece_ids[16 + i];
         chessboard[6][i] = piece_ids[24 + i];
     }
     return chessboard;
 }
 
-var show_piece = function(piece_id, margin_left, margin_top) {
-    var body_element = document.getElementsByTagName("body")[0];
-    var piece_class = piece_id.slice(0, -2);
-    var img_url = "img/pieces/" + piece_class + ".png";
-    var image = document.createElement('img');
+const show_piece = function(piece_id, margin_left, margin_top) {
+    let body_element = document.getElementsByTagName("body")[0];
+    let piece_class = piece_id.slice(0, -2);
+    let img_url = "img/pieces/" + piece_class + ".png";
+    let image = document.createElement('img');
     image.src = "img/empty.png"; // атрибут src не может быть пустым
     image.style.width = "100px";
     image.style.height = "100px";
@@ -70,9 +70,9 @@ var show_piece = function(piece_id, margin_left, margin_top) {
     body_element.appendChild(image);
 }
 
-var hide_pieces = function() {
-    for (var i = 0; i < piece_ids.length; i++) {
-        var piece = document.getElementById(piece_ids[i]);
+const hide_pieces = function() {
+    for (let i = 0; i < piece_ids.length; i++) {
+        let piece = document.getElementById(piece_ids[i]);
         if (!piece) {
             continue;
         }
@@ -80,9 +80,9 @@ var hide_pieces = function() {
     }
 }
 
-var render_chessboard = function(chessboard) {
-    for (var i = 0; i < 8; i++) {
-        for (var j = 0; j < 8; j++) {
+const render_chessboard = function(chessboard) {
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
             if (!chessboard[i][j]) {
                 continue;
             }
@@ -94,24 +94,24 @@ var render_chessboard = function(chessboard) {
     }
 }
 
-var chessboard = get_initial_chessboard();
+let chessboard = get_initial_chessboard();
 render_chessboard(chessboard);
 
-var convert_cell_to_coordinates = function(turn) {
+const convert_cell_to_coordinates = function(turn) {
     // левый верхний угол A8 -> (0,0).
     // (см. chessboard.jpg)
-    var letter_number_map = {
+    const letter_number_map = {
         'A': 0, 'B': 1, 'C': 2, 'D': 3,
         'E': 4, 'F': 5, 'G': 6
     }
-    var column_letter = turn[0];
-    var reversed_row = parseInt(turn[1]);
-    var column = letter_number_map[column_letter];
-    var row = (reversed_row - 8) * (-1);
+    let column_letter = turn[0];
+    let reversed_row = parseInt(turn[1]);
+    let column = letter_number_map[column_letter];
+    let row = (reversed_row - 8) * (-1);
     return {'row': row, 'col': column};
 }
 
-var display_next_turn = function() {
+const display_next_turn = function() {
     if (current_turn >= coordinates.length) {
         next_turn_button.disabled = true;
         return;
@@ -127,20 +127,20 @@ var display_next_turn = function() {
     current_turn += 1;
 }
 
-var reader = new FileReader();
+const reader = new FileReader();
 reader.onload = function(event) {
-    var contents = event.target.result;
-    var turns = contents.split("\n"); // ожидается, что каждый новый ход на новой строке
+    let contents = event.target.result;
+    let turns = contents.split("\n"); // ожидается, что каждый новый ход на новой строке
     console.log("Ходы: " + turns);
-    for (var i = 0; i < turns.length; i++) {
+    for (let i = 0; i < turns.length; i++) {
         if (!turns[i]) {
             // Если строка пустая или undefined, пропускаем итерацию
             continue;
         }
-        var start_cell = turns[i].split(" ")[0];
-        var finish_cell = turns[i].split(" ")[1];
-        var start_coordinates = convert_cell_to_coordinates(start_cell);
-        var finish_coordinates = convert_cell_to_coordinates(finish_cell);
+        let start_cell = turns[i].split(" ")[0];
+        let finish_cell = turns[i].split(" ")[1];
+        let start_coordinates = convert_cell_to_coordinates(start_cell);
+        let finish_coordinates = convert_cell_to_coordinates(finish_cell);
         coordinates.push({"start": start_coordinates, "finish": finish_coordinates})
     }
     next_turn_button.disabled = false;
@@ -152,9 +152,9 @@ next_turn_button.onclick = function(event) {
     display_next_turn();
 }
 
-var read_file = function(event) {
-    var files = control.files;
-    var file = files[0]; // гарантированно будет ровно один
+const read_file = function(event) {
+    let files = control.files;
+    let file = files[0]; // гарантированно будет ровно один
     reader.readAsText(file);
 }
 control.addEventListener("change", read_file, false);
